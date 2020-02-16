@@ -1,0 +1,672 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+            }
+
+            @font-face {
+                font-family: ArialMT_s;
+                src: url("{% static 'fonts/ArialMT_s.woff' %}") format("woff");
+            }
+    
+            @font-face {
+                font-family: MyriadPro-Regular_o;
+                src: url("{% static 'fonts/MyriadPro-Regular_o.woff' %}") format("woff");
+            }
+    
+            @font-face {
+                font-family: SourceSansPro-Bold_i;
+                src: url("{% static 'fonts/SourceSansPro-Bold_i.woff' %}") format("woff");
+            }
+    
+            @font-face {
+                font-family: SourceSansPro-ExtraLight_l;
+                src: url("{% static 'fonts/SourceSansPro-ExtraLight_l.woff' %}") format("woff");
+            }
+    
+            @font-face {
+                font-family: SourceSansPro-Regular_f;
+                src: url("{% static 'fonts/SourceSansPro-Regular_f.woff' %}") format("woff");
+            }
+    
+            .container {
+                width: 100%;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #ffffff url("{% static 'icons/bg.jpg' %}") repeat center center !important;
+                background-size: contain;
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+            
+            .heading-wrap {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .heading-icon {
+                width: 20px;
+                height: auto;
+            }
+            
+            .section-wrap {
+                padding: 10px 0px;
+                margin: 0px 0 0 50px;
+                border-bottom: 0.5px solid #efefea;
+            }
+            
+            .heading {
+                font-weight: 600;
+                margin: 5px 10px 5px 0 !important;
+            }
+            
+            .sub-heading {
+                font-size: 14px;
+                margin: 5px 0;
+                color: gray
+            }
+            
+            .subheading-value {
+                font-size: 14px;
+                color: gray;
+            }
+            
+            .chip-wrap {
+                display: flex;
+                flex-wrap: wrap;
+                /* width: 100%; */
+            }
+            
+            .chip {
+                /* margin: 0 7px 8px 0; */
+                font-size: 13px;
+                color: #333;
+                list-style: none;
+                margin-right: 4px;
+            }
+            
+            .chip span {
+                position: relative;
+                left: -2px;
+            }
+            
+            hr {
+                border-color: #efefea;
+                border-width: 00.5px;
+            }
+            
+            .header-footer-div {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0px 10px !important;
+                background-color: #333 !important;
+                color: #fff !important;
+                font-size: 20px;
+            }
+            
+            .header-footer-div p{
+                color: #fff !important;
+                margin: 10px 0;
+            }
+            
+            .dot {
+                width: 10px;
+                position: relative;
+                height: 10px;
+                border-radius: 20px;
+                margin-right: 7px;
+            }
+            
+            .online {
+                background: rgb(70, 171, 78) !important;
+            }
+            
+            .offline {
+                background-color: rgb(212, 78, 78) !important;
+            }
+            
+            .not-connected {
+                background-color: rgb(237, 192, 85) !important;
+            }
+            
+            #logo {
+                width: 100px;
+                height: auto;
+            }
+            
+            .chart-wrap {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+                text-align: center;
+            }
+            
+            .chart-wrap div {
+                width: 45%
+            }
+            .chart-wrap p {
+                margin-top: 10px;
+            }
+              /* dsdsd */
+              
+              
+            .t {
+                -webkit-transform-origin: bottom left;
+                -ms-transform-origin: bottom left;
+                transform-origin: bottom left;
+                -webkit-transform: scale(0.25);
+                -ms-transform: scale(0.25);
+                transform: scale(0.25);
+                z-index: 2;
+                position: absolute;
+                white-space: pre;
+                overflow: visible;
+                line-height: 1.5;
+                cursor: pointer;
+            }
+            
+            #t1 {
+                left: 47%;
+                top: 40%;
+                letter-spacing: -0.7px;
+                word-spacing: 0.7px;
+            }
+            
+            #t2 {
+                left: 64%;
+                top: 40%;
+                letter-spacing: -1.2px;
+                word-spacing: 1.2px;
+            }
+            
+            #t3 {
+                left: 47%;
+                top: 48%;
+                letter-spacing: -0.3px;
+                word-spacing: 0.3px;
+            }
+            
+            #t4 {
+                left: 50%;
+                top: 10%;
+                letter-spacing: -2.1px;
+            }
+            
+            #t5 {
+                left: 524px;
+                bottom: 210px;
+                letter-spacing: -0.1px;
+                word-spacing: 0.1px;
+            }
+              
+            #t6 {
+                left: 524px;
+                bottom: 200px;
+            }
+              
+            #t7 {
+                left: 524px;
+                bottom: 180px;
+                letter-spacing: 0.1px;
+                word-spacing: 0.8px;
+            }
+              
+            #t8 {
+                left: 524px;
+                bottom: 145px;
+            }
+              
+            #t9 {
+                left: 524px;
+                bottom: 119px;
+            }
+              
+            #ta {
+                left: 524px;
+                bottom: 93px;
+                letter-spacing: 0.1px;
+                word-spacing: -0.1px;
+            }
+              
+            .s1 {
+                font-size: 168.8px;
+                font-family: SourceSansPro-Regular_f;
+                color: rgb(255, 255, 255);
+            }
+              
+            .s2 {
+                font-size: 168.8px;
+                font-family: SourceSansPro-Bold_i;
+                color: rgb(255, 255, 255);
+            }
+              
+            .s3 {
+                font-size: 98.9px;
+                font-family: SourceSansPro-ExtraLight_l;
+                color: rgb(255, 255, 255);
+            }
+              
+            .s4 {
+                font-size: 542.4px;
+                font-family: SourceSansPro-Bold_i;
+                color: rgb(255, 255, 255);
+            }
+              
+            .s5 {
+                font-size: 73.3px;
+                font-family: MyriadPro-Regular_o;
+                /* color: rgb(255, 255, 255); */
+            }
+              
+            .s6 {
+                font-size: 70px;
+                font-family: ArialMT_s;
+                color: rgb(116, 128, 138);
+            }
+
+            @media screen and (min-width: 1024px) {
+                /* Styles go here */
+                #t4 {
+                    left: 50%;
+                    top: 8%;
+                    letter-spacing: -2.1px;
+                    font-size: 375px;
+                }
+                #t1 {
+                    left: 47%;
+                    top: 41%;
+                    letter-spacing: -0.7px;
+                    word-spacing: 0.7px;
+                    font-size: 120px;
+                }
+                #t2 {
+                    left: 64%;
+                    top: 41%;
+                    letter-spacing: -1.2px;
+                    word-spacing: 1.2px;
+                    font-size: 121.8px;
+                }
+                #t3 {
+                    left: 47%;
+                    top: 46%;
+                    letter-spacing: -0.3px;
+                    word-spacing: 0.3px;
+                }
+            }
+
+            @media print {
+                #t4 {
+                    left: 48%;
+                    top: 3%;
+                    letter-spacing: -2.1px;
+                    font-size: 300px;
+                    color: white ;
+                    /* color: rgb(255, 255, 255) !important; */
+                }
+                #t1 {
+                    left: 47%;
+                    top: 40%;
+                    letter-spacing: -0.7px;
+                    word-spacing: 0.7px;
+                    font-size: 85px;
+                }
+                #t2 {
+                    left: 64%;
+                    top: 39.2%;
+                    letter-spacing: -1.2px;
+                    word-spacing: 1.2px;
+                    font-size: 90px;
+                }
+                #t3 {
+                    left: 47%;
+                    top: 42%;
+                    font-size: 90px;
+                    letter-spacing: -0.3px;
+                    word-spacing: 0.3px;
+                }
+                #t6 {
+                    left: 47%;
+                    font-size: 50px;
+                    bottom: 160px;
+                }
+                #t7 {
+                    left: 47%;
+                    font-size: 50px;
+                    bottom: 145px;
+                }
+                #t8 {
+                    left: 47%;
+                    font-size: 50px;
+                    bottom: 120px;
+                }
+                #t9 {
+                    left: 47%;
+                    font-size:50px;
+                    bottom: 105px;
+                }
+                #ta {
+                    left: 47%;
+                    font-size: 50px;
+                    bottom: 90px;
+                }
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    </head>
+    <body>
+
+        <div id="p1" style="overflow: hidden; position: relative; background-color: white; width: 99.8%; height: 99.8%; margin: auto">
+            <div id="pg1Overlay"
+                style="width:99.8%; height:99.8%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;">
+            </div>
+            <div id="pg1" style="-webkit-user-select: none;">
+                <object data="{% static 'assets/1.svg' %}" type="image/svg+xml" id="pdf1"
+                    style="width:99.8%; height:99.8%; -moz-transform:scale(1); z-index: 0;">
+                </object>
+            </div>
+            <div id="t1" class="t s1" style="color: #fff !important; margin-top: 10px !important">Prepared for </div>
+            <div id="t2" class="t s2" style="color: #fff !important; margin-top: 13px !important">CUSTOMER NAME</div>
+            <div id="t3" class="t s3" style="color: #fff !important; margin-top: 10px !important">On Feb 01, 2020</div>
+            <div id="t4" class="t s4" style="color: #fff !important; margin-top: 50px !important">REPORT</div>
+            <!-- <div id="t5" class="t s5">Cloud Based Branch IT Device Provisioning and Deployment</div> -->
+            <div id="t6" class="t s6">The information contained in this document is confidential, privi-</div>
+            <div id="t7" class="t s6">leged and the sole property of CUSTOMER NAME.</div>
+            <div id="t8" class="t s6">This document is not to be disseminated, distributed, or otherwise </div>
+            <div id="t9" class="t s6">conveyed to anyone or posted anywhere without the express </div>
+            <div id="ta" class="t s6">written permission of CUSTOMER NAME.</div>
+        </div>
+
+        <div style="padding-top: 75px;">
+            <div class="container">
+                <div class="header-footer-div" style="padding: 8px;">
+                    <img src="{% static 'icons/ZPE-Logo.png' %}" id="logo" />
+                </div>
+        
+                <div class="chart-wrap">
+                    <div>
+                        <p>Total Sites: 10</p>
+                        <canvas id="total-sites-chart" width="125" height="80"></canvas>
+                        </canvas>
+                    </div>
+        
+                    <div>
+                        <p>Total Devices: 50</p>
+                        <canvas id="total-devices-chart" width="125" height="80"></canvas>
+                        </canvas>
+                    </div>
+                </div>
+        
+                <!-- Copmany Information section -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Company Information</p>
+                        <img class="heading-icon" src="{% static 'icons/work.png' %}" />
+                    </div>
+        
+                    <p class="sub-heading">Company Name : <span class="subheading-value">ZPE Systems</span></p>
+                    <p class="sub-heading">Address : <span class="subheading-value">USA</span></p>
+                </div>
+        
+                <!-- Sites Information section -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Sites Information</p>
+                        <img class="heading-icon" src="{% static 'icons/map-location.png' %}" />
+                    </div>
+        
+                    <div class="heading-wrap">
+                        <div class="dot online"></div>
+                        <p class="sub-heading" style="margin-right: 10px">Sites which are online :</p>
+        
+                        <div class="chip-wrap">
+                            <li class="chip"><span>ZPE_India, </span></li>
+                            <li class="chip"><span>ZPE_Test</span></li>
+                        </div>
+        
+        
+                    </div>
+        
+        
+                    <div class="heading-wrap">
+                        <div class="dot offline"></div>
+                        <p class="sub-heading" style="margin-right: 10px">Sites which are offline :</p>
+        
+                        <div class="chip-wrap">
+                            <li class="chip"><span>ZPE_Brazil</span></li>
+                        </div>
+        
+                    </div>
+        
+        
+                    <div class="heading-wrap">
+                        <div class="dot not-connected"></div>
+                        <p class="sub-heading" style="margin-right: 10px">Sites which are in partial state :</p>
+                        <div class="chip-wrap">
+                            <li class="chip"><span>ZPE_Ireland</span></li>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Devices Information section -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Devices Summary</p>
+                        <img class="heading-icon" src="{% static 'icons/modem.png' %}" />
+                    </div>
+        
+                    <div class="heading-wrap">
+                        <div class="dot online"></div>
+                        <p class="sub-heading">
+                            Devices currently in online state :
+                            <span class="subheading-value">3</span>
+                        </p>
+                    </div>
+                    <div class="heading-wrap">
+                        <div class="dot offline"></div>
+                        <p class="sub-heading">Devices currently in offline state : <span class="subheading-value">4</span></p>
+                    </div>
+                    <div class="heading-wrap">
+                        <div class="dot not-connected"></div>
+                        <p class="sub-heading">
+                            Device currently in never connected state :
+                            <span class="subheading-value">6</span>
+                        </p>
+                    </div>
+        
+                    <hr />
+        
+                    <p class="sub-heading">Available Devices : <span class="subheading-value">16</span></p>
+                    <p class="sub-heading">Enrolled Devices : <span class="subheading-value">14</span></p>
+                    <hr />
+        
+                    <p class="sub-heading">NSR Mode Devices : <span class="subheading-value">15</span></p>
+                    <p class="sub-heading">NGB-SR Model Devices : <span class="subheading-value">10</span></p>
+                    <p class="sub-heading">NGL-SR Model Devices : <span class="subheading-value">4</span></p>
+                </div>
+        
+        
+                <div class="header-footer-div">
+                    <p>1 | Cloud Report</p>
+                    <p>Confidential</p>
+                </div>
+            </div>
+        </div>
+    
+    
+        <!-- SECOND PAGE -->
+        <div style="padding-top: 170px;">
+            <div class="container">
+                <div class="header-footer-div" style="padding: 8px;">
+                    <img src="{% static 'icons/ZPE-Logo.png' %}" id="logo" />
+                </div>
+        
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Device Data Summary</p>
+                        <img class="heading-icon" src="{% static 'icons/download.png' %}" />
+                    </div>
+        
+                    <p class="sub-heading">Total TX bytes : <span class="subheading-value">2000 bytes</span></p>
+                    <p class="sub-heading">Total RX bytes : <span class="subheading-value">2000 bytes</span></p>
+        
+                    <canvas id="device-data-chart" width="200px" height="80px"></canvas>
+                    <hr />
+                    <p class="sub-heading">Cellular Data Usage for January : <span class="subheading-value">2 GB</span>
+                    </p>
+                </div>
+        
+                <!-- Groups -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Groups</p>
+                        <img class="heading-icon" src="{% static 'icons/group.png' %}" />
+                    </div>
+        
+                    <p class="sub-heading">Total Groups : <span class="subheading-value">5</span></p>
+                    <p class="sub-heading">Devices assigned to G1 : <span class="subheading-value">3</span></p>
+                    <p class="sub-heading">Devices assigned to G2 : <span class="subheading-value">5</span></p>
+                    <p class="sub-heading">Devices assigned to G3 : <span class="subheading-value">6</span></p>
+                </div>
+        
+                <!-- Users -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Users</p>
+                        <img class="heading-icon" src="{% static 'icons/user.png' %}" />
+                    </div>
+        
+                    <div class="heading-wrap">
+                        <div>
+                            <p class="sub-heading">Users with Customer Admin role : <span class="subheading-value">4</span></p>
+                            <p class="sub-heading">Users with Group Admin role : <span class="subheading-value">2</span></p>
+                        </div>
+        
+                        <div style="margin-left: 30px;">
+                            <p class="sub-heading">Currently Active Users : <span class="subheading-value">5</span></p>
+                            <p class="sub-heading">Currently Locked Users: <span class="subheading-value">0</span></p>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Profiles -->
+                <div class="section-wrap">
+                    <div class="heading-wrap">
+                        <p class="heading">Profiles</p>
+                        <img class="heading-icon" src="{% static 'icons/profile.png' %}" />
+                    </div>
+        
+                    <p class="sub-heading">Total Configuration available : <span class="subheading-value">5</span></p>
+                    <p class="sub-heading">Total Scripts available : <span class="subheading-value">6</span></p>
+                    <p class="sub-heading">Total Backup Operations : <span class="subheading-value">10</span></p>
+                    <p class="sub-heading">Total Software Versions available : <span class="subheading-value">1</span></p>
+                </div>
+        
+                <div class="header-footer-div">
+                    <p>2 | Cloud Report</p>
+                    <p>Confidential</p>
+                </div>
+            </div>
+        </div>
+    
+        </div>
+
+
+        <script type="text/javascript">
+            var ts = document.getElementById('total-sites-chart').getContext('2d');
+            var myChart = new Chart(ts, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Online',
+                        'Offline',
+                        'Partial',
+                    ],
+                    datasets: [{
+                        data: [400, 1000, 100],
+                        backgroundColor: [
+                            'rgb(70, 171, 78)',
+                            'rgb(212, 78, 78)',
+                            'rgb(237, 192, 85)',
+                        ]
+                    }],
+                },
+                options: {
+                    animation: false,
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
+
+            });
+
+            var td = document.getElementById('total-devices-chart').getContext('2d');
+            var myChart = new Chart(td, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Online',
+                        'Offline',
+                        'Never connected'
+                    ],
+                    datasets: [{
+                        data: [0, 0, 100],
+                        backgroundColor: [
+                            'rgb(70, 171, 78)',
+                            'rgb(212, 78, 78)',
+                            'rgba(26, 128, 242,0.8)',
+                        ]
+                    }],
+                },
+
+                options: {
+                    animation: false,
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12
+                        }
+
+                    }
+                }
+            });
+
+            var ctx = document.getElementById('device-data-chart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                options: {
+                    animation: false,
+                },
+                data: {
+                    labels: [
+                        'rxBytes',
+                        'txBytes'
+                    ],
+                    datasets: [{
+                        data: [400, 1000],
+                        backgroundColor: ['rgba(255, 238, 54, 0.7)', 'rgba(76, 148, 52,0.7)']
+                    }]
+                },
+
+            });
+        </script>
+    </body>
+</html>
